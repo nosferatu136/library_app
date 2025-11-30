@@ -42,9 +42,9 @@ rails server
 ## 🔐 Authentication Model
 
   Role        Description    Permissions
-  ----------- -------------- -----------------------
-  Librarian   Admin user     Manage all books
-  Member      Regular user   Borrow & return books
+  ----------- -------------- ---------------------------------------------
+  Librarian   Admin user     Manage all books, also mark them as returned
+  Member      Regular user   Borrow books
 
 ## 🔒 Authorization
 
@@ -65,13 +65,14 @@ Base URL:
 
 ## Authentication
 
-### POST /users --- Signup
+### GETPOST /sign_up --- Signup
 
-### POST /users/sign_in --- Login
+### POST /login --- Login
 
 ## Books
 
 ### GET /books
+### GET /books/search
 
 ### POST /books (Librarian only)
 
@@ -83,9 +84,14 @@ Base URL:
 
 ## Borrowing
 
-### POST /books/:id/borrow (Member only)
+### POST /borrowings --- borrow (Member only)
 
-### POST /books/:id/return (Member only)
+### PATCH /borrowings/:id --- return (Librarian only)
+
+## Dashboards
+
+### GET /librarian/dashboard
+### GET /member/dashboard
 
 ## 🌱 Seed Data
 
