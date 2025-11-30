@@ -1,26 +1,113 @@
-# lybrary_app
-Test
-# README
+# 📚 Library API -- Rails 8
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A simple **Rails 8 JSON API** providing:
 
-Things you may want to cover:
+-   **User authentication** using Devise\
+-   **Authorization** using CanCanCan\
+-   **Two user roles:**
+    -   *Librarians* (admins) --- manage books\
+    -   *Members* --- borrow & return books\
+-   **Books CRUD**\
+-   **Borrow / Return endpoints**\
+-   **Swagger (OpenAPI 3) documentation**\
+-   **RSpec test suite**\
+-   **Seeds with sample users & books**
 
-* Ruby version
+## 📦 Requirements
 
-* System dependencies
+  Component    Version
+  ------------ ---------
+  Ruby         3.2+
+  Rails        8.x
+  PostgreSQL   13+
+  Bundler      Latest
 
-* Configuration
+## 🚀 Installation
 
-* Database creation
+``` bash
+git clone <your-repo-url>
+cd library_api
+bundle install
+rails db:create
+rails db:migrate
+rails db:seed
+```
 
-* Database initialization
+Start the API:
 
-* How to run the test suite
+``` bash
+rails server
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+## 🔐 Authentication Model
 
-* Deployment instructions
+  Role        Description    Permissions
+  ----------- -------------- -----------------------
+  Librarian   Admin user     Manage all books
+  Member      Regular user   Borrow & return books
 
-* ...
+## 🔒 Authorization
+
+Librarians → full CRUD on Books\
+Members → read-only, plus borrow/return actions
+
+## 📘 API Overview
+
+Base URL:
+
+    http://localhost:3000
+
+## 📄 Swagger Documentation
+
+    /api-docs
+
+# 📚 Endpoints
+
+## Authentication
+
+### POST /users --- Signup
+
+### POST /users/sign_in --- Login
+
+## Books
+
+### GET /books
+
+### POST /books (Librarian only)
+
+### GET /books/:id
+
+### PATCH /books/:id (Librarian only)
+
+### DELETE /books/:id (Librarian only)
+
+## Borrowing
+
+### POST /books/:id/borrow (Member only)
+
+### POST /books/:id/return (Member only)
+
+## 🌱 Seed Data
+
+Creates: - librarian@example.com - member@example.com - 5 sample books
+
+## 🧪 Tests
+
+Run tests:
+
+``` bash
+bundle exec rspec
+```
+
+## 🧰 Project Structure
+
+    app/
+      controllers/
+      models/
+    config/
+    spec/
+    swagger/
+
+## 📄 License
+
+MIT
