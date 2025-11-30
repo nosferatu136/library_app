@@ -27,6 +27,20 @@ class BooksController < ApplicationController
     head :no_content
   end
 
+  def search
+    authorize! :read, Book
+
+    query = params[:q].to_s.strip
+
+    @books = if query.present?
+      Book.where("title ILIKE :q OR author ILIKE :q", q: "%#{query}%")
+    else
+      Book.none
+    end
+
+    render json: @books
+  end
+
   private
 
   def book_params

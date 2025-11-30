@@ -35,4 +35,27 @@ RSpec.describe "Books API", type: :request do
       expect(response).to have_http_status(:forbidden)
     end
   end
+
+  describe "GET /search", type: :request do
+    let!(:book1) { create(:book, title: "Harry Potter", author: "J.K. Rowling") }
+    let!(:book2) { create(:book, title: "Lord of the Rings", author: "Tolkien") }
+
+    it "returns books matching the search query" do
+      headers = auth_headers_for(member)
+      get "/books/search", params: { q: "harry" }, headers: headers
+
+      expect(response).to have_http_status(:ok)
+      json = JSON.parse(response.body)
+      expect(json.length).to eq(1)
+      expect(json.first["title"]).to eq("Harry Potter")
+    end
+
+    it "returns empty array when no results" do
+      headers = auth_headers_for(member)
+      get "/books/search", params: { q: "xyz" }, headers: headers
+
+      expect(response).to have_http_status(:ok)
+      expect(JSON.parse(response.body)).to eq([])
+    end
+  end
 end
