@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  mount Rswag::Ui::Engine => '/api-docs'
+  mount Rswag::Ui::Engine => "/api-docs"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -9,19 +9,19 @@ Rails.application.routes.draw do
   devise_for :users,
     defaults: { format: :json },
     controllers: {
-      sessions: 'users/sessions',
-      registrations: 'users/registrations'
+      sessions: "users/sessions",
+      registrations: "users/registrations"
     }
 
   # Custom API-friendly endpoints
   devise_scope :user do
-    post   '/login',    to: 'users/sessions#create'
-    delete '/logout',   to: 'users/sessions#destroy'
-    post   '/signup',   to: 'users/registrations#create'
+    post   "/login",    to: "users/sessions#create"
+    delete "/logout",   to: "users/sessions#destroy"
+    post   "/signup",   to: "users/registrations#create"
   end
 
   resources :books
-  resources :borrowings, only: [:create, :update, :index]
+  resources :borrowings, only: [ :create, :update, :index ]
 
   root "books#index"
 end
