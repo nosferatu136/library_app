@@ -11,11 +11,13 @@ class Ability
     else
       # Members can only read books
       can :read, Book
+      can :search, Book
 
       # Borrowing actions
       can :create, Borrowing  # borrow a book
-      can :update, Borrowing, user_id: user.id  # return a book
       can :read, Borrowing, user_id: user.id
+      # Dashboard access
+      can :read, :dashboard
     end
   end
 end
