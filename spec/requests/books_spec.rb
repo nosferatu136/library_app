@@ -1,9 +1,11 @@
-require "rails_helper"
+require 'swagger_helper'
 
 RSpec.describe "Books API", type: :request do
   let(:librarian) { create(:user, :librarian) }
   let(:member)    { create(:user, :member) }
   let(:book)      { create(:book) }
+  let(:token)         { rswag_auth_token_for(member) }
+  let(:Authorization) { "Bearer #{token}" }
 
   describe "GET /books" do
     it "allows any logged-in user to list books" do
@@ -56,6 +58,33 @@ RSpec.describe "Books API", type: :request do
 
       expect(response).to have_http_status(:ok)
       expect(JSON.parse(response.body)).to eq([])
+    end
+  end
+
+   path '/books' do
+    get 'List all books' do
+      security [{ bearerAuth: [] }]
+      tags 'Books'
+      produces 'application/json'
+      
+      response '200', 'Retrieve all books' do
+        schema type: :array,
+        items: {
+          type: :object,
+          properties: {
+            id: { type: :integer },
+            title: { type: :string },
+            author: { type: :string },
+            available: { type: :boolean },
+            quantity: { type: :integer },
+            created_at: { type: :string, format: 'date-time' },
+            updated_at: { type: :string, format: 'date-time' }
+          },
+          required: ['id', 'title', 'author', 'available', 'quantity']
+        }
+        
+        run_test!
+      end
     end
   end
 end

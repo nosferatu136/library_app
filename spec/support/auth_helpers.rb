@@ -6,4 +6,11 @@ module AuthHelpers
     token = JSON.parse(response.body)["token"]
     { "Authorization" => "Bearer #{token}" }
   end
+
+  def rswag_auth_token_for(user)
+    post "/login", params: {
+      user: { email: user.email, password: "password123" }
+    }
+    JSON.parse(response.body)["token"]
+  end
 end

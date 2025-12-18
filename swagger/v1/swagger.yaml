@@ -1,0 +1,59 @@
+---
+openapi: 3.0.1
+info:
+  title: Library App API V1
+  version: v1
+paths:
+  "/books":
+    get:
+      summary: List all books
+      security:
+      - bearerAuth: []
+      tags:
+      - Books
+      responses:
+        '200':
+          description: Retrieve all books
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    title:
+                      type: string
+                    author:
+                      type: string
+                    available:
+                      type: boolean
+                    quantity:
+                      type: integer
+                    created_at:
+                      type: string
+                      format: date-time
+                    updated_at:
+                      type: string
+                      format: date-time
+                  required:
+                  - id
+                  - title
+                  - author
+                  - available
+                  - quantity
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'Enter your JWT token in the format: Bearer <token>'
+security:
+- bearerAuth: []
+servers:
+- url: http://{defaultHost}
+  variables:
+    defaultHost:
+      default: localhost:3000
